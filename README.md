@@ -1,6 +1,6 @@
-# Woodgrove groceries demo REST API
+# Woodgrove groceries demo of the claims augmentation REST API
 
-This dotnet C# Web API demonstrates how to use Microsoft Entra External ID'ss custom authentication extension for various events. 
+This dotnet C# Web API demonstrates how to use Microsoft Entra External ID's custom authentication extension for various events. 
 
 ## Endpoints
 
