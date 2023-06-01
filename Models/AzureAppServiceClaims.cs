@@ -23,13 +23,11 @@ namespace woodgroveapi.Models
 
                 AzureAppServiceClaim azp = header.claims.Find(x => x.typ == "azp");
 
-                if (azp != null)
-                {
-                    // Validate that the respective claim contains the 99045fe1-7639-4a75-9d4a-577b6ca3810f value. 
-                    // This value ensures that the Azure AD is the one who calls the REST API. 
-                    // For more information, https://learn.microsoft.com/azure/active-directory/develop/custom-extension-overview#protect-your-rest-api
-                    return azp.val == "99045fe1-7639-4a75-9d4a-577b6ca3810f";
-                }
+                // Validate that the 'azp' claim contains the 99045fe1-7639-4a75-9d4a-577b6ca3810f value. 
+                // This value ensures that the Microsoft Entra is the one who calls the API. 
+                // For more information, https://learn.microsoft.com/azure/active-directory/develop/custom-extension-overview#protect-your-rest-api
+                return (azp != null) && 
+                        azp.val == "99045fe1-7639-4a75-9d4a-577b6ca3810f";
             }
 
             return false;
