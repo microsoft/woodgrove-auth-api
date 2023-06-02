@@ -1,16 +1,16 @@
-# Woodgrove groceries demo REST API
+# Woodgrove groceries demo of the claims augmentation REST API
 
-This dotnet C# Web API demonstrates how to use Microsoft Entra External ID'ss custom authentication extension for various events. 
+This dotnet C# Web API demonstrates how to use Microsoft Entra External ID's custom authentication extension for various events. 
 
 ## Endpoints
 
-The sample code provides the following endpoints:
+The sample code provides an implementation of the following endpoints:
 
 ### Token issuance start
 
-The *TokenIssuanceStart* event is triggered when a token is about to be issued to your application. When the event is triggered the custom extension REST API is called to fetch attributes from external systems. In this demo, the [TokenIssuanceStartController](./Controllers/TokenIssuanceStartController.cs) returns the following claims:
+The *TokenIssuanceStart* event is triggered when a token is about to be issued by Microsoft Entra External ID to your application. When the event is triggered your custom extension REST API is called to fetch attributes from external systems. In this demo, the [TokenIssuanceStartController](./Controllers/TokenIssuanceStartController.cs) returns the following claims:
 
-- **CorrelationId** the correlation ID that was sent by Azure AD to your REST API.
+- **CorrelationId** the correlation ID that was sent by the issuer to your REST API.
 - **ApiVersion** a fixed value with your REST API version. This attribute can help you debug your REST API and check if your latest version is in used.
 - **LoyaltyNumber** a random numeric value that represents an imaginary loyally number.
 - **LoyaltySince** a random date that the that represents an imaginary time the user joined the loyalty program.
@@ -60,7 +60,7 @@ In the [appsettings.json](./appsettings.json) file, update the following keys un
 - **Audience** same as above
 - **TenantId** your tenant ID
 
-This demo REST API can be used without authentication. So, you can use it in your Microsoft Entra External ID tenant. If you run your own REST API, uncomment the `[Authorize]` attribute in the controllers. The following example shows how a controller should look like:
+This demo REST API can be used without authentication (see option 2 below). If you run your own REST API, uncomment the `[Authorize]` attribute in the controllers. The following example shows how a controller should look like:
 
 ```csharp
 [Authorize]
@@ -74,13 +74,13 @@ public class TokenIssuanceStartController : ControllerBase
 
 ### [Option 2] Validate the access token via Azure Service App
 
-[Azure App Service](https://learn.microsoft.com/azure/app-service/) enables you to build and host web apps and and RESTful APIs in the programming language of your choice without managing infrastructure.
+[Azure App Service](https://learn.microsoft.com/azure/app-service/) enables you to build and host web apps and and RESTful APIs in the programming language of your choice without managing the infrastructure.
 
 Azure App Service provides built-in [authentication and authorization capabilities](https://learn.microsoft.com/azure/app-service/overview-authentication-authorization) (sometimes referred to as "Easy Auth"), so you can validate the access token sends by Microsoft Entra External ID by writing minimal code in RESTful API.
 
-To enable add authentication into your App Service app, follow these steps:
+To enable authentication into your App Service app, follow these steps:
 
-1. Sign in to the [Azure portal](https://portal.azure.com/) and navigate to your app.
+1. Sign in to the [Azure portal](https://portal.azure.com/) and navigate to the app service hosting your web API.
 1. From the left navigation, select **Authentication** > **Add identity provider** > **Microsoft**.
 1. For **App registration type**, choose **Provide the details of an existing app registration** 
 1. Fill in the following configuration details:
@@ -99,7 +99,7 @@ To enable add authentication into your App Service app, follow these steps:
 
 You're now ready to use the Microsoft identity platform for authentication in your app. The App Service makes the claims in the incoming token available to your code by injecting them into the `X-MS-CLIENT-PRINCIPAL` request header (Base64 encoded JSON representation of available claims). 
 
-To ensure the communications between the custom extension and your REST API are [secured appropriately](https://learn.microsoft.com/azure/active-directory/develop/custom-extension-overview#protect-your-rest-api), validate that the respective `azp` claim contains the `99045fe1-7639-4a75-9d4a-577b6ca3810f` value.
+To ensure the communications between the custom extension and your REST API are [secured appropriately](https://learn.microsoft.com/azure/active-directory/develop/custom-extension-overview#protect-your-rest-api), validate that the respective `azp` claim equals the `99045fe1-7639-4a75-9d4a-577b6ca3810f` value.
 
 In your REST API use the code in the [AzureAppServiceClaims class](./Models/AzureAppServiceClaims.cs). Then, in the controller call the `Authorize` function that checks the `azp` claim value.
 
