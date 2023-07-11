@@ -35,7 +35,7 @@ public class TokenIssuanceStartController : ControllerBase
         // Claims to return to Azure AD
         TokenIssuanceStartResponse r = new TokenIssuanceStartResponse();
         r.data.actions[0].claims.CorrelationId = correlationId;
-        r.data.actions[0].claims.ApiVersion = "1.0.3";
+        r.data.actions[0].claims.ApiVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         // Loyalty program data
         Random random = new Random();
