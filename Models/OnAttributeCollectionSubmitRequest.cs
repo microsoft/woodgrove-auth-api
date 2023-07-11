@@ -27,12 +27,50 @@ namespace woodgroveapi.Models
 
     public class OnAttributeCollectionSubmitRequest_UserSignUpInfo
     {
-        public OnAttributeCollectionSubmitRequest_BuiltInAttributes builtInAttributes { get; set; }
+        public OnAttributeCollectionSubmitRequest_attributes attributes { get; set; }
     }
 
-    public class OnAttributeCollectionSubmitRequest_BuiltInAttributes
+    public class OnAttributeCollectionSubmitRequest_attributes
     {
-        public string? country { get; set; }
-        public string? city { get; set; }
+        public OnAttributeCollectionSubmitRequest_Email? email { get; set; }
+        public OnAttributeCollectionSubmitRequest_City? city { get; set; }
+        public OnAttributeCollectionSubmitRequest_Country? country { get; set; }
+        public OnAttributeCollectionSubmitRequest_DisplayName? displayName { get; set; }
+    }
+
+    public class OnAttributeCollectionSubmitRequest_City
+    {
+        public string value { get; set; }
+
+        [JsonPropertyName("@odata.type")]
+        public string odatatype { get; set; }
+        public string attributeType { get; set; }
+    }
+
+    public class OnAttributeCollectionSubmitRequest_Country
+    {
+        public string value { get; set; }
+
+        [JsonPropertyName("@odata.type")]
+        public string odatatype { get; set; }
+        public string attributeType { get; set; }
+    }
+
+    public class OnAttributeCollectionSubmitRequest_DisplayName
+    {
+        public string value { get; set; }
+
+        [JsonPropertyName("@odata.type")]
+        public string odatatype { get; set; }
+        public string attributeType { get; set; }
+    }
+
+    public class OnAttributeCollectionSubmitRequest_Email
+    {
+        public string value { get; set; }
+
+        [JsonPropertyName("@odata.type")]
+        public string odatatype { get; set; }
+        public string attributeType { get; set; }
     }
 }

@@ -38,9 +38,11 @@ public class OnAttributeCollectionSubmitController : ControllerBase
 
         // Check the input attributes and return a generic error message
         if (requestPayload.data.userSignUpInfo == null ||
-            requestPayload.data.userSignUpInfo.builtInAttributes == null ||
-            requestPayload.data.userSignUpInfo.builtInAttributes.country == null ||
-            requestPayload.data.userSignUpInfo.builtInAttributes.city == null)
+            requestPayload.data.userSignUpInfo.attributes == null ||
+            requestPayload.data.userSignUpInfo.attributes.country == null ||
+            requestPayload.data.userSignUpInfo.attributes.country.value == null ||
+            requestPayload.data.userSignUpInfo.attributes.city == null || 
+            requestPayload.data.userSignUpInfo.attributes.city.value == null)
         {
             r.data.actions[0].odatatype = OnAttributeCollectionSubmitResponse_ActionTypes.ShowBlockPage;
             r.data.actions[0].message = "Can't find the country and/or city attributes.";
@@ -48,7 +50,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
         }
 
         // Demonstrates the use of block response
-        if (requestPayload.data.userSignUpInfo.builtInAttributes.city.ToLower() == "block")
+        if (requestPayload.data.userSignUpInfo.attributes.city.value.ToLower() == "block")
         {
             r.data.actions[0].odatatype = OnAttributeCollectionSubmitResponse_ActionTypes.ShowBlockPage;
             r.data.actions[0].message = "You can't create an account with 'block' city.";
@@ -56,25 +58,25 @@ public class OnAttributeCollectionSubmitController : ControllerBase
         }
 
         // Check the country name in on the supported list
-        if (!CountriesList.ContainsKey(requestPayload.data.userSignUpInfo.builtInAttributes.country))
+        if (!CountriesList.ContainsKey(requestPayload.data.userSignUpInfo.attributes.country.value))
         {
             r.data.actions[0].odatatype = OnAttributeCollectionSubmitResponse_ActionTypes.ShowValidationError;
             r.data.actions[0].message = "Please fix the following issues to proceed.";
-            r.data.actions[0].attributeErrors = new List<OnAttributeCollectionSubmitResponse_AttributeError>();
-            r.data.actions[0].attributeErrors.Add(new OnAttributeCollectionSubmitResponse_AttributeError("country", $"We don't operate in '{requestPayload.data.userSignUpInfo.builtInAttributes.country}'"));
+            r.data.actions[0].attributeErrors = new OnAttributeCollectionSubmitResponse_AttributeError();
+            r.data.actions[0].attributeErrors.country = $"We don't operate in '{requestPayload.data.userSignUpInfo.attributes.country.value}'";
             return r;
         }
 
         // Get the countries' cities
-        string cities = CountriesList[requestPayload.data.userSignUpInfo.builtInAttributes.country];
+        string cities = CountriesList[requestPayload.data.userSignUpInfo.attributes.country.value];
 
         // Check if the city provided by user in the supported list
-        if (!(cities + ",").ToLower().Contains($" {requestPayload.data.userSignUpInfo.builtInAttributes.city.ToLower()},"))
+        if (!(cities + ",").ToLower().Contains($" {requestPayload.data.userSignUpInfo.attributes.city.value.ToLower()},"))
         {
             r.data.actions[0].odatatype = OnAttributeCollectionSubmitResponse_ActionTypes.ShowValidationError;
             r.data.actions[0].message = "Please fix the following issues to proceed.";
-            r.data.actions[0].attributeErrors = new List<OnAttributeCollectionSubmitResponse_AttributeError>();
-            r.data.actions[0].attributeErrors.Add(new OnAttributeCollectionSubmitResponse_AttributeError("city", $"We don't operate in this city. Please select one of the following:{cities}"));
+            r.data.actions[0].attributeErrors = new OnAttributeCollectionSubmitResponse_AttributeError();
+            r.data.actions[0].attributeErrors.city =  $"We don't operate in this city. Please select one of the following:{cities}";
         }
         else
         {
