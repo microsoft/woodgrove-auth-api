@@ -31,7 +31,7 @@ public class OnAttributeCollectionStartController : ControllerBase
         r.data.actions[0].odatatype = AttributeCollectionStartResponse_ActionTypes.SetPrefillValues;
         r.data.actions[0].inputs = new AttributeCollectionStartResponse_Inputs();
         // r.data.actions[0].inputs.city = "Berlin";
-        r.data.actions[0].inputs.country = new List<string>(){"Spain"};
+        r.data.actions[0].inputs.country = new List<string>(){"es"};
 
         // No issues have been identified, proceed to create the account
         //r.data.actions[0].odatatype = AttributeCollectionStartResponse_ActionTypes.ContinueWithDefaultBehavior;
