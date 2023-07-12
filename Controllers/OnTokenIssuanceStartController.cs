@@ -9,16 +9,16 @@ namespace woodgroveapi.Controllers;
 //[Authorize]
 [ApiController]
 [Route("[controller]")]
-public class TokenIssuanceStartController : ControllerBase
+public class OnTokenIssuanceStartController : ControllerBase
 {
-    private readonly ILogger<TokenIssuanceStartController> _logger;
+    private readonly ILogger<OnTokenIssuanceStartController> _logger;
 
-    public TokenIssuanceStartController(ILogger<TokenIssuanceStartController> logger)
+    public OnTokenIssuanceStartController(ILogger<OnTokenIssuanceStartController> logger)
     {
         _logger = logger;
     }
 
-    [HttpPost(Name = "TokenIssuanceStart")]
+    [HttpPost(Name = "OnTokenIssuanceStart")]
     public TokenIssuanceStartResponse PostAsync([FromBody] TokenIssuanceStartRequest requestPayload)
     {
 

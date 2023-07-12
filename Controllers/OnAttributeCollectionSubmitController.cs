@@ -18,7 +18,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
     }
 
     [HttpPost(Name = "OnAttributeCollectionSubmit")]
-    public OnAttributeCollectionSubmitResponse PostAsync([FromBody] OnAttributeCollectionSubmitRequest requestPayload)
+    public AttributeCollectionSubmitResponse PostAsync([FromBody] AttributeCollectionRequest requestPayload)
     {
         // For Azure App Service with Easy Auth, validate the azp claim value
         // if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
@@ -34,7 +34,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
         CountriesList.Add("us", " New York, Chicago, Boston, Seattle");
 
         // Message object to return to Azure AD
-        OnAttributeCollectionSubmitResponse r = new OnAttributeCollectionSubmitResponse();
+        AttributeCollectionSubmitResponse r = new AttributeCollectionSubmitResponse();
 
         // Check the input attributes and return a generic error message
         if (requestPayload.data.userSignUpInfo == null ||
@@ -44,7 +44,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
             requestPayload.data.userSignUpInfo.attributes.city == null || 
             requestPayload.data.userSignUpInfo.attributes.city.value == null)
         {
-            r.data.actions[0].odatatype = OnAttributeCollectionSubmitResponse_ActionTypes.ShowBlockPage;
+            r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowBlockPage;
             r.data.actions[0].message = "Can't find the country and/or city attributes.";
             return r;
         }
@@ -52,7 +52,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
         // Demonstrates the use of block response
         if (requestPayload.data.userSignUpInfo.attributes.city.value.ToLower() == "block")
         {
-            r.data.actions[0].odatatype = OnAttributeCollectionSubmitResponse_ActionTypes.ShowBlockPage;
+            r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowBlockPage;
             r.data.actions[0].message = "You can't create an account with 'block' city.";
             return r;
         }
@@ -60,9 +60,9 @@ public class OnAttributeCollectionSubmitController : ControllerBase
         // Check the country name in on the supported list
         if (!CountriesList.ContainsKey(requestPayload.data.userSignUpInfo.attributes.country.value))
         {
-            r.data.actions[0].odatatype = OnAttributeCollectionSubmitResponse_ActionTypes.ShowValidationError;
+            r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowValidationError;
             r.data.actions[0].message = "Please fix the following issues to proceed.";
-            r.data.actions[0].attributeErrors = new OnAttributeCollectionSubmitResponse_AttributeError();
+            r.data.actions[0].attributeErrors = new AttributeCollectionSubmitResponse_AttributeError();
             r.data.actions[0].attributeErrors.country = $"We don't operate in '{requestPayload.data.userSignUpInfo.attributes.country.value}'";
             return r;
         }
@@ -73,15 +73,15 @@ public class OnAttributeCollectionSubmitController : ControllerBase
         // Check if the city provided by user in the supported list
         if (!(cities + ",").ToLower().Contains($" {requestPayload.data.userSignUpInfo.attributes.city.value.ToLower()},"))
         {
-            r.data.actions[0].odatatype = OnAttributeCollectionSubmitResponse_ActionTypes.ShowValidationError;
+            r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowValidationError;
             r.data.actions[0].message = "Please fix the following issues to proceed.";
-            r.data.actions[0].attributeErrors = new OnAttributeCollectionSubmitResponse_AttributeError();
+            r.data.actions[0].attributeErrors = new AttributeCollectionSubmitResponse_AttributeError();
             r.data.actions[0].attributeErrors.city =  $"We don't operate in this city. Please select one of the following:{cities}";
         }
         else
         {
             // No issues have been identified, proceed to create the account
-            r.data.actions[0].odatatype = OnAttributeCollectionSubmitResponse_ActionTypes.ContinueWithDefaultBehavior;
+            r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ContinueWithDefaultBehavior;
         }
 
         return r;

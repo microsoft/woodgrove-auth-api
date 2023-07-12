@@ -36,7 +36,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Version = "v1",
         Title = "Woodgrove demo API",
-        Description = "Assembly version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(),
+        Description = "This dotnet Web API entpoint demonstrate how to use Microsoft Entra External ID's custom authentication extension for various events. Checkout the [source code](https://github.com/microsoft/woodgrove-api) and [request samples](./help.html) <br> <br> Assembly version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(),
     });
 });
 
@@ -65,6 +65,7 @@ app.UseSwaggerUI(options =>
 //}
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();

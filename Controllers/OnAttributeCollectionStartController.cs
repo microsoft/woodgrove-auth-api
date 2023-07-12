@@ -1,34 +1,40 @@
-// using Microsoft.AspNetCore.Authorization;
-// using Microsoft.AspNetCore.Mvc;
-// using woodgroveapi.Models.Request;
-// using woodgroveapi.Models.Response;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using woodgroveapi.Models;
 
-// namespace woodgroveapi.Controllers;
+namespace woodgroveapi.Controllers;
 
-// [Authorize]
-// [ApiController]
-// [Route("[controller]")]
-// public class OnAttributeCollectionStartController : ControllerBase
-// {
-//     private readonly ILogger<OnAttributeCollectionStartController> _logger;
+//[Authorize]
+[ApiController]
+[Route("[controller]")]
+public class OnAttributeCollectionStartController : ControllerBase
+{
+    private readonly ILogger<OnAttributeCollectionStartController> _logger;
 
-//     public OnAttributeCollectionStartController(ILogger<OnAttributeCollectionStartController> logger)
-//     {
-//         _logger = logger;
-//     }
+    public OnAttributeCollectionStartController(ILogger<OnAttributeCollectionStartController> logger)
+    {
+        _logger = logger;
+    }
 
-//     [HttpPost(Name = "OnAttributeCollectionStart")]
-//     public ResponsePayload PostAsync([FromBody] RequestPayload _)
-//     {
-//         _logger.LogInformation("*********** OnAttributeCollectionStart ***********");
+    [HttpPost(Name = "OnAttributeCollectionStart")]
+    public AttributeCollectionStartResponse PostAsync([FromBody] AttributeCollectionRequest requestPayload)
+    {
+        // For Azure App Service with Easy Auth, validate the azp claim value
+        // if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
+        // {
+        //     Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+        //     return null;
+        // }
 
-//         // Read the correlation ID from the Azure AD  request    
-//         //string correlationId = data.data.authenticationContext.correlationId; ;
+        // Message object to return to Azure AD
+        AttributeCollectionStartResponse r = new AttributeCollectionStartResponse();
+        r.data.actions[0].odatatype = AttributeCollectionStartResponse_ActionTypes.SetPrefillValues;
+        r.data.actions[0].inputs = new AttributeCollectionStartResponse_Inputs();
+        r.data.actions[0].inputs.city = "Berlin";
 
-//         // Claims to return to Azure AD
-//         ResponsePayload r = new ResponsePayload(ResponseType.OnAttributeCollectionStartResponseData);
-//         r.AddAction(ActionType.SetPrefillValues);
-//         r.data.actions[0].inputs.jobTitle = "This is my test";
-//         return r;
-//     }
-// }
+        // No issues have been identified, proceed to create the account
+        //r.data.actions[0].odatatype = AttributeCollectionStartResponse_ActionTypes.ContinueWithDefaultBehavior;
+
+        return r;
+    }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Woodgrove API demo help</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <div class="jumbotron text-center">
+        <h1>Woodgrove API demo help</h1>
+        <p>Configure pre- and post- attribute collection, and on token issuance start event custom extensions</p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>Token issuance start</h3>
+                <p>The token issuance start event is triggered once a user completes all of their authentication challenges, and a security token is about to be issued. You can use a custom authentication extension and a custom claims provider to add this external data into tokens returned to your application.</p>
+                <ul>
+                    <li><a href="./Help/TokenIssuanceStart_LocalAccount.json">Local account request example</a></li>
+                    <li><a href="./Help/TokenIssuanceStart_SocailAccount.json">Social account request example</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <h3>Attribute collection start event</h3>
+                <p>The attributeCollectionStart is fired at the beginning of the attribute collection process and can be used to prevent the user from signing up (such as based on the domain they are authenticating from) or modify the initial attributes to be collected (such as including additional attributes to collect based on the user’s IdP).</p>
+                <ul>
+                    <li><a href="./Help/attributeCollectionStart-LocalAccount.json">Local account request example</a></li>
+                    <li><a href="./Help/attributeCollectionStart-SocialAccount.json">Social account request example</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <h3>Attribute collection submit event</h3>
+                <p>The OnAttributeCollectionSubmit is fired after the user provides attribute information during signing up and can be used to validate the information provided by the user (such as an invitation code or partner number), modify the collected attributes (such as address validation), and either allow the user to continue in the journey or show a validation or block page.</p>
+                <ul>
+                    <li><a href="./Help/attributeCollectionSubmit-LocalAccount.json">Local account request example</a></li>
+                    <li><a href="./Help/attributeCollectionSubmit-SocialAccount.json">Social account request example</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
