@@ -3,17 +3,17 @@ using System.Text.Json.Serialization;
 namespace woodgroveapi.Models
 {
 
-    public class TokenIssuanceStartRequest
+    public class AttributeCollectionRequest
     {
         [JsonPropertyName("data")]
-        public TokenIssuanceStartRequest_Data data { get; set; }
-        public TokenIssuanceStartRequest()
+        public AttributeCollectionRequest_Data data { get; set; }
+        public AttributeCollectionRequest()
         {
-            data = new TokenIssuanceStartRequest_Data();
+            data = new AttributeCollectionRequest_Data();
         }
     }
 
-    public class TokenIssuanceStartRequest_Data
+    public class AttributeCollectionRequest_Data
     {
         [JsonPropertyName("@odata.type")]
         public string odatatype { get; set; }
@@ -21,6 +21,7 @@ namespace woodgroveapi.Models
         public string authenticationEventListenerId { get; set; }
         public string customAuthenticationExtensionId { get; set; }
         public AuthenticationContext authenticationContext { get; set; }
+        public UserSignUpInfo userSignUpInfo { get; set; }
 
     }
 }

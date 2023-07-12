@@ -1,0 +1,47 @@
+{
+    "type": "microsoft.graph.authenticationEvent.attributeCollectionStart",
+    "source": "/tenants/12345678-0000-0000-0000-000000000000/applications/00000003-0000-0000-c000-000000000000",
+    "data": {
+        "@odata.type": "microsoft.graph.onAttributeCollectionStartCalloutData",
+        "userSignUpInfo": {
+            "attributes": {
+                "EmailAddress": {
+                    "value": "someone@gmail.com",
+                    "@odata.type": "microsoft.graph.stringDirectoryAttributeValue",
+                    "attributeType": "builtIn"
+                }
+            },
+            "identities": [
+                {
+                    "signInType": "federated",
+                    "issuer": "google.com",
+                    "issuerAssignedId": "1234567890"
+                }
+            ]
+        },
+        "tenantId": "12345678-0000-0000-0000-000000000000",
+        "authenticationEventListenerId": "4d7faa03-ebef-4b50-8f9c-90c05cbb2ba8",
+        "customAuthenticationExtensionId": "ea528627-7ecf-4ab0-8d7d-e4a16b8d1d9e",
+        "authenticationContext": {
+            "correlationId": "220b4804-64ce-4e90-b9d2-03c3fb85a11c",
+            "client": {
+                "ip": "2a0d:0000:0000:0000:0000:0000:e02d:78d3",
+                "locale": "en-us",
+                "market": "en-us"
+            },
+            "protocol": "OAUTH2.0",
+            "clientServicePrincipal": {
+                "id": "758a6513-5cc9-4274-aa57-409618e73f71",
+                "appId": "77552a27-2fbf-4fb0-873e-af165ec071d5",
+                "appDisplayName": "My test web application",
+                "displayName": "My test web application"
+            },
+            "resourceServicePrincipal": {
+                "id": "e42d06a3-38f6-40ab-86a8-3019e1468863",
+                "appId": "00000003-0000-0000-c000-000000000000",
+                "appDisplayName": "Microsoft Graph",
+                "displayName": "Microsoft Graph"
+            }
+        }
+    }
+}
