@@ -38,9 +38,11 @@ namespace woodgroveapi.Models
 
     public class AttributeCollectionStartResponse_Inputs
     {
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string city { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public List<string> country { get; set; }
     }
-
 
     public class AttributeCollectionStartResponse_ActionTypes
     {
