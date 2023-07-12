@@ -19,7 +19,7 @@ The *TokenIssuanceStart* event is triggered when a token is about to be issued b
 The REST API endpoint URL:
 
 ```http
-POST https://api.wggdemo.net/TokenIssuanceStart
+POST https://api.wggdemo.net/OnTokenIssuanceStart
 ```
 
 ### On attribute collection start
