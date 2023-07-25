@@ -19,7 +19,7 @@ The *TokenIssuanceStart* event is triggered when a token is about to be issued b
 The REST API endpoint URL:
 
 ```http
-POST https://api.wggdemo.net/OnTokenIssuanceStart
+POST https://auth-api.woodgrovedemo.com/OnTokenIssuanceStart
 ```
 
 ### On attribute collection start
@@ -41,7 +41,7 @@ This demo validates the city name, against a list of cities and countries we com
 The REST API endpoint URL:
 
 ```http
-POST https://api.wggdemo.net/OnAttributeCollectionSubmit
+POST https://auth-api.woodgrovedemo.com/OnAttributeCollectionSubmit
 ```
 
 ## Protect access to your REST API
