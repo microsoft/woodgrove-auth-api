@@ -30,11 +30,14 @@ public class OnAttributeCollectionStartController : ControllerBase
         AttributeCollectionStartResponse r = new AttributeCollectionStartResponse();
         r.data.actions[0].odatatype = AttributeCollectionStartResponse_ActionTypes.SetPrefillValues;
         r.data.actions[0].inputs = new AttributeCollectionStartResponse_Inputs();
-        // r.data.actions[0].inputs.city = "Berlin";
-        r.data.actions[0].inputs.country = new List<string>(){"es"};
 
-        // No issues have been identified, proceed to create the account
-        //r.data.actions[0].odatatype = AttributeCollectionStartResponse_ActionTypes.ContinueWithDefaultBehavior;
+        // Return the country and city
+        r.data.actions[0].inputs.country = new List<string>(){"es"};
+        // r.data.actions[0].inputs.city = "Berlin";
+        
+        // Return a promo code
+        Random random = new Random();
+        r.data.actions[0].inputs.promoCode = $"Promo code #{random.Next(1236, 9873)}";
 
         return r;
     }
