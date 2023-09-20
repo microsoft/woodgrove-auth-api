@@ -8,35 +8,33 @@ namespace woodgroveapi.Controllers;
 //[Authorize]
 [ApiController]
 [Route("[controller]")]
-public class  onPageRenderStartController : ControllerBase
+public class onPageRenderStartController : ControllerBase
 {
-    private readonly ILogger< onPageRenderStartController> _logger;
+    private readonly ILogger<onPageRenderStartController> _logger;
 
-    public  onPageRenderStartController(ILogger< onPageRenderStartController> logger)
+    public onPageRenderStartController(ILogger<onPageRenderStartController> logger)
     {
         _logger = logger;
     }
 
     [HttpPost(Name = "onPageRenderStart")]
-    public async Task<object> PostAsync()
+    public PageRenderStartResponse PostAsync([FromBody] PageRenderStartRequest requestPayload)
     {
-        _logger.LogInformation($"#### call to: {this.GetType().Name}");
+        //For Azure App Service with Easy Auth, validate the azp claim value
+        //if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
+        //{
+        //     r.StatusCode = (int)HttpStatusCode.Unauthorized;
+        //     return null;
+        //}
 
-        // Validate that REST API received a bearer token in the authorization header.
-        if (Request.Headers.Authorization.Count == 0)
-        {
-            _logger.LogInformation("#### authorization header not found");
-        }
-        else
-        {
-            _logger.LogInformation($"#### authorization header: {Request.Headers.Authorization[0]}");
-        }
+        PageRenderStartResponse r = new PageRenderStartResponse();
+        r.type =  requestPayload.type;
+        r.source = requestPayload.source;
 
-        // Echo the input data
-        string requestBody = await new StreamReader(this.Request.Body).ReadToEndAsync();
+        r.data.actions[0].tenantBranding.signInPageText = "This is my first test";
+        r.data.actions[0].tenantBranding.customTermsOfUseText = "My TOS test";
 
-        _logger.LogInformation($"#### {requestBody}");
 
-        return "Echo";
+        return r;
     }
 }
