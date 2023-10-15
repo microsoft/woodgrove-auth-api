@@ -20,7 +20,7 @@ namespace woodgroveapi.Models
 
     public class UserSignUpInfo_City
     {
-        public string value { get; set; }
+        public string? value { get; set; }
 
         [JsonPropertyName("@odata.type")]
         public string odatatype { get; set; }
@@ -29,7 +29,7 @@ namespace woodgroveapi.Models
 
     public class UserSignUpInfo_Country
     {
-        public string value { get; set; }
+        public string? value { get; set; }
 
         [JsonPropertyName("@odata.type")]
         public string odatatype { get; set; }
@@ -38,7 +38,7 @@ namespace woodgroveapi.Models
 
     public class UserSignUpInfo_DisplayName
     {
-        public string value { get; set; }
+        public string? value { get; set; }
 
         [JsonPropertyName("@odata.type")]
         public string odatatype { get; set; }
@@ -47,7 +47,7 @@ namespace woodgroveapi.Models
 
     public class UserSignUpInfo_Email
     {
-        public string value { get; set; }
+        public string? value { get; set; }
 
         [JsonPropertyName("@odata.type")]
         public string odatatype { get; set; }
