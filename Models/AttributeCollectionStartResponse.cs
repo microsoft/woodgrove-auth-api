@@ -42,7 +42,7 @@ namespace woodgroveapi.Models
         ///  Country
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public List<string> country { get; set; }
+        public string country { get; set; }
 
         /// <summary>
         /// City

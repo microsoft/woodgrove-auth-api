@@ -32,8 +32,8 @@ public class OnAttributeCollectionStartController : ControllerBase
         r.data.actions[0].inputs = new AttributeCollectionStartResponse_Inputs();
 
         // Return the country and city
-        r.data.actions[0].inputs.country = new List<string>(){"es"};
-        // r.data.actions[0].inputs.city = "Berlin";
+        r.data.actions[0].inputs.country = "es";
+        // r.data.actions[0].inputs.city = "Madrind";
         
         // Return a promo code
         Random random = new Random();
