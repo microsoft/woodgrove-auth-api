@@ -1,7 +1,9 @@
 using System.Net;
 using Azure.Communication.Email;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using woodgroveapi.Helpers;
 using woodgroveapi.Models;
 
 namespace woodgroveapi.Controllers;
@@ -14,27 +16,40 @@ public class OnOtpSendController : ControllerBase
 {
     private readonly ILogger<OnOtpSendController> _logger;
     private readonly IConfiguration _configuration;
+    private TelemetryClient _telemetry;
 
-    public OnOtpSendController(ILogger<OnOtpSendController> logger, IConfiguration configuration)
+    public OnOtpSendController(ILogger<OnOtpSendController> logger, TelemetryClient telemetry, IConfiguration configuration)
     {
         _logger = logger;
         _configuration = configuration;
+        _telemetry = telemetry;
     }
 
     [HttpPost(Name = "OnOtpSend")]
     public async Task<OnOtpSendResponse> PostAsync([FromBody] OnOtpSendRequest requestPayload)
     {
+        // Track the page view 
+        IDictionary<string, string> moreProperties = new Dictionary<string, string>();
+        if (requestPayload.data.otpContext.identifier.IndexOf("@") > 0)
+            moreProperties.Add("Identifier", requestPayload.data.otpContext.identifier.Substring(0, 1) + "_" + requestPayload.data.otpContext.identifier.Split("@")[1]);
+        AppInsightsHelper.TrackApi("OnOtpSend", this._telemetry, requestPayload.data, moreProperties);
+
         //For Azure App Service with Easy Auth, validate the azp claim value
         if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
         {
+            AppInsightsHelper.TrackError(new Exception("Unauthorized"), this._telemetry, requestPayload.data);
             Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             return null;
         }
 
-        var emailClient = new EmailClient(_configuration.GetSection("AppSettings:EmailConnectionString").Value);
+        try
+        {
 
-        var subject = "Your Woodgrove account verification code";
-        var htmlContent = @$"<html><body>
+
+            var emailClient = new EmailClient(_configuration.GetSection("AppSettings:EmailConnectionString").Value);
+
+            var subject = "Your Woodgrove account verification code";
+            var htmlContent = @$"<html><body>
             <div class='inbox-data-content-intro'> 
  
                 <table dir='ltr'>
@@ -60,16 +75,22 @@ public class OnOtpSendController : ControllerBase
 
                 <div lang='en' style='margin-top: 20px; margin-bottom: 10px;'><a href='https://woodgrovedemo.com/Privacy' style='color: rgb(38, 114, 236); text-decoration: none;'>Privacy Statement</a>
             </div></body></html>";
-            
-        var sender = "donotreply@woodgrovedemo.com";
 
-        EmailSendOperation emailSendOperation = await emailClient.SendAsync(
-            Azure.WaitUntil.Started,
-            sender,
-            requestPayload.data.otpContext.identifier,
-            subject,
-            htmlContent);
+            var sender = "donotreply@woodgrovedemo.com";
 
+            EmailSendOperation emailSendOperation = await emailClient.SendAsync(
+                Azure.WaitUntil.Started,
+                sender,
+                requestPayload.data.otpContext.identifier,
+                subject,
+                htmlContent);
+
+        }
+        catch (System.Exception ex)
+        {
+            AppInsightsHelper.TrackError(ex, this._telemetry, requestPayload.data);
+        }
+        
         return new OnOtpSendResponse();
     }
 

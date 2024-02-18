@@ -1,6 +1,8 @@
 using System.Net;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using woodgroveapi.Helpers;
 using woodgroveapi.Models;
 
 namespace woodgroveapi.Controllers;
@@ -12,15 +14,19 @@ namespace woodgroveapi.Controllers;
 public class OnTokenIssuanceStartController : ControllerBase
 {
     private readonly ILogger<OnTokenIssuanceStartController> _logger;
+    private TelemetryClient _telemetry;
 
-    public OnTokenIssuanceStartController(ILogger<OnTokenIssuanceStartController> logger)
+    public OnTokenIssuanceStartController(ILogger<OnTokenIssuanceStartController> logger, TelemetryClient telemetry)
     {
         _logger = logger;
+        _telemetry = telemetry;
     }
 
     [HttpPost(Name = "OnTokenIssuanceStart")]
     public TokenIssuanceStartResponse PostAsync([FromBody] TokenIssuanceStartRequest requestPayload)
     {
+        // Track the page view 
+        AppInsightsHelper.TrackApi("OnTokenIssuanceStart", this._telemetry, requestPayload.data);
 
         //For Azure App Service with Easy Auth, validate the azp claim value
         //if (!AzureAppServiceClaimsHeader.Authorize(this.Request))

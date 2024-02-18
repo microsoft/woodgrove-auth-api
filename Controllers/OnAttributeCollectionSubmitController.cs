@@ -1,6 +1,8 @@
 using System.Net;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using woodgroveapi.Helpers;
 using woodgroveapi.Models;
 
 namespace woodgroveapi.Controllers;
@@ -11,10 +13,12 @@ namespace woodgroveapi.Controllers;
 public class OnAttributeCollectionSubmitController : ControllerBase
 {
     private readonly ILogger<OnAttributeCollectionSubmitController> _logger;
+    private TelemetryClient _telemetry;
 
-    public OnAttributeCollectionSubmitController(ILogger<OnAttributeCollectionSubmitController> logger)
+    public OnAttributeCollectionSubmitController(ILogger<OnAttributeCollectionSubmitController> logger, TelemetryClient telemetry)
     {
         _logger = logger;
+        _telemetry = telemetry;
     }
 
     [HttpPost(Name = "OnAttributeCollectionSubmit")]
@@ -26,6 +30,9 @@ public class OnAttributeCollectionSubmitController : ControllerBase
         //     Response.StatusCode = (int)HttpStatusCode.Unauthorized;
         //     return null;
         // }
+
+        // Track the page view 
+        AppInsightsHelper.TrackApi("OnAttributeCollectionSubmit", this._telemetry, requestPayload.data);
 
         // List of countries and cities where Woodgrove operates
         Dictionary<string, string> CountriesList = new Dictionary<string, string>();
@@ -41,7 +48,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
             requestPayload.data.userSignUpInfo.attributes == null ||
             requestPayload.data.userSignUpInfo.attributes.country == null ||
             requestPayload.data.userSignUpInfo.attributes.country.value == null ||
-            requestPayload.data.userSignUpInfo.attributes.city == null || 
+            requestPayload.data.userSignUpInfo.attributes.city == null ||
             requestPayload.data.userSignUpInfo.attributes.city.value == null)
         {
             r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowBlockPage;
@@ -76,7 +83,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
             r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowValidationError;
             r.data.actions[0].message = "Please fix the following issues to proceed.";
             r.data.actions[0].attributeErrors = new AttributeCollectionSubmitResponse_AttributeError();
-            r.data.actions[0].attributeErrors.city =  $"We don't operate in this city. Please select one of the following:{cities}";
+            r.data.actions[0].attributeErrors.city = $"We don't operate in this city. Please select one of the following:{cities}";
         }
         else
         {

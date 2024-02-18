@@ -1,5 +1,7 @@
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using woodgroveapi.Helpers;
 using woodgroveapi.Models;
 
 namespace woodgroveapi.Controllers;
@@ -11,13 +13,15 @@ namespace woodgroveapi.Controllers;
 public class OnPageRenderStartController : ControllerBase
 {
     private readonly ILogger<OnPageRenderStartController> _logger;
+    private TelemetryClient _telemetry;
 
-    public OnPageRenderStartController(ILogger<OnPageRenderStartController> logger)
+    public OnPageRenderStartController(ILogger<OnPageRenderStartController> logger, TelemetryClient telemetry)
     {
         _logger = logger;
+        _telemetry = telemetry;
     }
 
-    [HttpPost(Name = "onPageRenderStart")]
+    [HttpPost(Name = "OnPageRenderStart")]
     public PageRenderStartResponse PostAsync([FromBody] PageRenderStartRequest requestPayload)
     {
         //For Azure App Service with Easy Auth, validate the azp claim value
@@ -26,6 +30,11 @@ public class OnPageRenderStartController : ControllerBase
         //     Response.StatusCode = (int)HttpStatusCode.Unauthorized;
         //     return null;
         //}
+
+        // Track the page view 
+        IDictionary<string, string> moreProperties = new Dictionary<string, string>();
+        moreProperties.Add("Page", requestPayload.data.pageId);
+        AppInsightsHelper.TrackApi("OnPageRenderStart", this._telemetry, requestPayload.data, moreProperties);
 
         PageRenderStartResponse r = new PageRenderStartResponse();
         r.type = requestPayload.type;
