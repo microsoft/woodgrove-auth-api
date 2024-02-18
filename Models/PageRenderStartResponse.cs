@@ -40,13 +40,48 @@ namespace woodgroveapi.Models
 
     public class PageRenderStartResponse_ContentCustomization
     {
-        public string attributeCollection { get; set; }
+        public PageRenderStartResponse_ContentCustomization() { }
+
+        public List<PageRenderStartResponse_AttributeCollection> attributeCollection { get; set; }
+
+        // [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        // public PageRenderStartResponse_AttributeCollection attributeCollection { get; set; }
+
+
+        // [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        // public string attributeCollection { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string adminConsent { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string registrationCampaign { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string conditionalAccess { get; set; }
     }
 
+    // public class PageRenderStartResponse_AttributeCollection
+    // {
+    //     public string signIn_Description { get; set; }
+    //     public string signIn_Title { get; set; }
+    // }
 
+    public class PageRenderStartResponse_AttributeCollection
+    {
+        public PageRenderStartResponse_AttributeCollection()
+        {
+
+        }
+
+        public PageRenderStartResponse_AttributeCollection(string key, string value)
+        {
+            this.key = key;
+            this.value = value;
+        }
+        public string key { get; set; }
+        public string value { get; set; }
+    }
 
     public class PageRenderStartResponse_LoginPageLayoutConfiguration
     {

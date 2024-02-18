@@ -83,6 +83,20 @@ public class onPageRenderStartController : ControllerBase
         branding.customPrivacyAndCookiesText = "Privacy & Cookies statement";
         branding.customPrivacyAndCookiesUrl = $"{appUrl}/privacy";
 
+        //branding.contentCustomization = new PageRenderStartResponse_ContentCustomization();
+        // branding.contentCustomization.attributeCollection= new PageRenderStartResponse_AttributeCollection();
+        // branding.contentCustomization.attributeCollection.signIn_Description = "This is my test";
+        // branding.contentCustomization.attributeCollection.signIn_Title = "This is my test";
+
+
+        //branding.contentCustomization.attributeCollection = "[{\"key\": \"SignIn_Description\", \"value\": \"This is my test\" },  {  \"key\": \"SignIn_Title\", \"value\": \"This is my test\" }]";
+
+
+
+        // branding.contentCustomization.attributeCollection = new List<PageRenderStartResponse_AttributeCollection>();
+        // branding.contentCustomization.attributeCollection.Add( new PageRenderStartResponse_AttributeCollection("SignIn_Description", "This is my test"));
+        // branding.contentCustomization.attributeCollection.Add( new PageRenderStartResponse_AttributeCollection("SignIn_Title", "This is my test"));
+
         return branding;
 
     }
