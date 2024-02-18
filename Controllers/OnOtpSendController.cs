@@ -28,23 +28,22 @@ public class OnOtpSendController : ControllerBase
     [HttpPost(Name = "OnOtpSend")]
     public async Task<OnOtpSendResponse> PostAsync([FromBody] OnOtpSendRequest requestPayload)
     {
-        // Track the page view 
-        IDictionary<string, string> moreProperties = new Dictionary<string, string>();
-        if (requestPayload.data.otpContext.identifier.IndexOf("@") > 0)
-            moreProperties.Add("Identifier", requestPayload.data.otpContext.identifier.Substring(0, 1) + "_" + requestPayload.data.otpContext.identifier.Split("@")[1]);
-        AppInsightsHelper.TrackApi("OnOtpSend", this._telemetry, requestPayload.data, moreProperties);
-
-        //For Azure App Service with Easy Auth, validate the azp claim value
-        if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
-        {
-            AppInsightsHelper.TrackError(new Exception("Unauthorized"), this._telemetry, requestPayload.data);
-            Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-            return null;
-        }
-
         try
         {
+            // Track the page view 
+            IDictionary<string, string> moreProperties = new Dictionary<string, string>();
+            if (requestPayload.data.otpContext.identifier.IndexOf("@") > 0)
+                moreProperties.Add("Identifier", requestPayload.data.otpContext.identifier.Substring(0, 1) + "_" + requestPayload.data.otpContext.identifier.Split("@")[1]);
 
+            AppInsightsHelper.TrackApi("OnOtpSend", this._telemetry, requestPayload.data, moreProperties);
+
+            //For Azure App Service with Easy Auth, validate the azp claim value
+            if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
+            {
+                AppInsightsHelper.TrackError("OnOtpSend", new Exception("Unauthorized"), this._telemetry, requestPayload.data);
+                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                return null;
+            }
 
             var emailClient = new EmailClient(_configuration.GetSection("AppSettings:EmailConnectionString").Value);
 
@@ -88,9 +87,9 @@ public class OnOtpSendController : ControllerBase
         }
         catch (System.Exception ex)
         {
-            AppInsightsHelper.TrackError(ex, this._telemetry, requestPayload.data);
+            AppInsightsHelper.TrackError("OnOtpSend", ex, this._telemetry, requestPayload.data);
         }
-        
+
         return new OnOtpSendResponse();
     }
 

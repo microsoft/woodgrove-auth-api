@@ -33,9 +33,10 @@ public class AppInsightsHelper
         telemetry.TrackPageView(pageView);
     }
 
-    public static void TrackError(Exception ex, TelemetryClient telemetry, AllRequestData requestData, IDictionary<string, string>? moreProperties = null)
+    public static void TrackError(string name, Exception ex, TelemetryClient telemetry, AllRequestData requestData, IDictionary<string, string>? moreProperties = null)
     {
         ExceptionTelemetry exception = new ExceptionTelemetry(ex);
+        exception.Properties.Add("ApiName", name);
         exception.Properties.Add("TenantId", requestData.tenantId);
         exception.Properties.Add("CorrelationId", requestData.authenticationContext.correlationId);
         exception.Properties.Add("EventListenerId", requestData.authenticationEventListenerId);
