@@ -8,11 +8,11 @@ namespace woodgroveapi.Controllers;
 //[Authorize]
 [ApiController]
 [Route("[controller]")]
-public class onPageRenderStartController : ControllerBase
+public class OnPageRenderStartController : ControllerBase
 {
-    private readonly ILogger<onPageRenderStartController> _logger;
+    private readonly ILogger<OnPageRenderStartController> _logger;
 
-    public onPageRenderStartController(ILogger<onPageRenderStartController> logger)
+    public OnPageRenderStartController(ILogger<OnPageRenderStartController> logger)
     {
         _logger = logger;
     }
@@ -23,7 +23,7 @@ public class onPageRenderStartController : ControllerBase
         //For Azure App Service with Easy Auth, validate the azp claim value
         //if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
         //{
-        //     r.StatusCode = (int)HttpStatusCode.Unauthorized;
+        //     Response.StatusCode = (int)HttpStatusCode.Unauthorized;
         //     return null;
         //}
 
