@@ -26,15 +26,9 @@ POST https://auth-api.woodgrovedemo.com/OnTokenIssuanceStart
 
 The *OnAttributeCollectionStart* is fired at the beginning of the attribute collection process and can be used to prevent the user from signing up (such as based on the domain they are authenticating from) or modify the initial attributes to be collected (such as including additional attributes to collect based on the user’s identity provider).
 
-> [!IMPORTANT]
-> The OnAttributeCollectionStart event type is not available yet.
-
 ### On attribute collection submit
 
 OnAttributeCollectionSubmit event is fired after the user provides attribute information during signing up and can be used to validate the information provided by the user (such as an invitation code or partner number), modify the collected attributes (such as address validation), and either allow the user to continue in the journey or show a validation or block page.
-
-> [!IMPORTANT]
-> The OnAttributeCollectionSubmit event type is subject be to changed. Don't use it in your Microsoft Entra External ID tenant. 
 
 This demo validates the city name, against a list of cities and countries we compiled. You can find the list of countries and cities in the [OnAttributeCollectionSubmitController](./Controllers/OnAttributeCollectionSubmitController.cs). 
 
