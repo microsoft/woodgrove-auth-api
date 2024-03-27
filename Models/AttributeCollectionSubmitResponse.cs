@@ -33,9 +33,21 @@ namespace woodgroveapi.Models
         public string message { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public AttributeCollectionSubmitResponse_Attribute attributes { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public AttributeCollectionSubmitResponse_AttributeError attributeErrors { get; set; }
     }
 
+    public class AttributeCollectionSubmitResponse_Attribute
+    {
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? displayName { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? city { get; set; }
+    }
     public class AttributeCollectionSubmitResponse_AttributeError
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

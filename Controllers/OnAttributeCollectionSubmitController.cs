@@ -57,15 +57,35 @@ public class OnAttributeCollectionSubmitController : ControllerBase
         }
 
         // Demonstrates the use of block response
-        if (requestPayload.data.userSignUpInfo.attributes.city.value.ToLower() == "block")
+        if (requestPayload.data.userSignUpInfo.attributes.city.value!.ToLower() == "block")
         {
             r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowBlockPage;
             r.data.actions[0].message = "You can't create an account with 'block' city.";
             return r;
         }
 
+        // Demonstrates the use of update response
+        if (requestPayload.data.userSignUpInfo.attributes.city.value!.ToLower() == "modify")
+        {
+            r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ModifyAttributeValues;
+            r.data.actions[0].attributes = new AttributeCollectionSubmitResponse_Attribute();
+
+            // Modify the displayName to capitalized string 
+            if (requestPayload.data.userSignUpInfo.attributes.displayName != null &&
+            string.IsNullOrEmpty(requestPayload.data.userSignUpInfo.attributes.displayName.value) == false)
+            {
+                string displayName = requestPayload.data.userSignUpInfo.attributes.displayName.value!.ToLower();
+                r.data.actions[0].attributes.displayName =
+                    string.Concat(displayName[0].ToString().ToUpper(), displayName.AsSpan(1));
+            }
+
+            r.data.actions[0].attributes.city = "Madrid";
+
+            return r;
+        }
+
         // Check the country name in on the supported list
-        if (!CountriesList.ContainsKey(requestPayload.data.userSignUpInfo.attributes.country.value))
+        if (!CountriesList.ContainsKey(requestPayload.data.userSignUpInfo.attributes.country.value!))
         {
             r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowValidationError;
             r.data.actions[0].message = "Please fix the following issues to proceed.";
@@ -75,10 +95,10 @@ public class OnAttributeCollectionSubmitController : ControllerBase
         }
 
         // Get the countries' cities
-        string cities = CountriesList[requestPayload.data.userSignUpInfo.attributes.country.value];
+        string cities = CountriesList[requestPayload.data.userSignUpInfo.attributes.country.value!];
 
         // Check if the city provided by user in the supported list
-        if (!(cities + ",").ToLower().Contains($" {requestPayload.data.userSignUpInfo.attributes.city.value.ToLower()},"))
+        if (!(cities + ",").ToLower().Contains($" {requestPayload.data.userSignUpInfo.attributes.city.value!.ToLower()},"))
         {
             r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowValidationError;
             r.data.actions[0].message = "Please fix the following issues to proceed.";
