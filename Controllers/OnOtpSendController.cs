@@ -49,7 +49,8 @@ public class OnOtpSendController : ControllerBase
 
             var subject = "Your Woodgrove account verification code";
             var htmlContent = @$"<html><body>
-                <table dir='ltr' style='background-color: #1F6402!important;'>
+            <div style='background-color: #1F6402!important; padding: 15px'>
+                <table>
                 <tbody>
                     <tr>
                         <td colspan='2' style='padding: 0px;font-family: &quot;Segoe UI Semibold&quot;, &quot;Segoe UI Bold&quot;, &quot;Segoe UI&quot;, &quot;Helvetica Neue Medium&quot;, Arial, sans-serif;font-size: 17px;color: white;'>Woodgrove Groceries live demo</td>
@@ -85,8 +86,9 @@ public class OnOtpSendController : ControllerBase
                         </td>
                     </tr>
                 </tbody>
-            </table>
-           </body></html>";
+                </table>
+            </div>
+            </body></html>";
 
             var sender = "donotreply@woodgrovedemo.com";
 
