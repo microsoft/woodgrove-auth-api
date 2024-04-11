@@ -9,7 +9,7 @@ using woodgroveapi.Models;
 namespace woodgroveapi.Controllers;
 
 
-//[Authorize]
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class OnOtpSendController : ControllerBase
