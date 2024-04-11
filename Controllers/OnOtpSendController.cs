@@ -38,12 +38,12 @@ public class OnOtpSendController : ControllerBase
             AppInsightsHelper.TrackApi("OnOtpSend", this._telemetry, requestPayload.data, moreProperties);
 
             //For Azure App Service with Easy Auth, validate the azp claim value
-            if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
-            {
-                AppInsightsHelper.TrackError("OnOtpSend", new Exception("Unauthorized"), this._telemetry, requestPayload.data);
-                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                return null;
-            }
+            // if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
+            // {
+            //     AppInsightsHelper.TrackError("OnOtpSend", new Exception("Unauthorized"), this._telemetry, requestPayload.data);
+            //     Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            //     return null;
+            // }
 
             var emailClient = new EmailClient(_configuration.GetSection("AppSettings:EmailConnectionString").Value);
 
