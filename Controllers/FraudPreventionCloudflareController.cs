@@ -78,10 +78,13 @@ public class FraudPreventionCloudflareController : ControllerBase
         else
         {
             // No issues have been identified, proceed to create the account
-            r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ContinueWithDefaultBehavior;
-        }
+            r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ModifyAttributeValues;
+            r.data.actions[0].attributes = new AttributeCollectionSubmitResponse_Attribute();
 
-        return r;
+            // Remove the security token
+            r.data.actions[0].attributes.specialDiet = "";
+            return r;
+        }
     }
 }
 

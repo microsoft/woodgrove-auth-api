@@ -41,12 +41,15 @@ namespace woodgroveapi.Models
 
     public class AttributeCollectionSubmitResponse_Attribute
     {
-
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? displayName { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? city { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("extension_0cae61cc83e94edd978ec2fde3c5f2f3_SpecialDiet")]
+        public string? specialDiet { get; set; }
     }
     public class AttributeCollectionSubmitResponse_AttributeError
     {
@@ -55,8 +58,8 @@ namespace woodgroveapi.Models
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? country { get; set; }
-        
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]        
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("extension_0cae61cc83e94edd978ec2fde3c5f2f3_SpecialDiet")]
         public string? specialDiet { get; set; }
     }
