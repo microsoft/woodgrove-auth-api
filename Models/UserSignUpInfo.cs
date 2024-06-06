@@ -12,40 +12,18 @@ namespace woodgroveapi.Models
 
     public class UserSignUpInfo_Attributes
     {
-        public UserSignUpInfo_Email? email { get; set; }
-        public UserSignUpInfo_City? city { get; set; }
-        public UserSignUpInfo_Country? country { get; set; }
-        public UserSignUpInfo_DisplayName? displayName { get; set; }
+        public UserSignUpInfo_Attribute? email { get; set; }
+        public UserSignUpInfo_Attribute? city { get; set; }
+        public UserSignUpInfo_Attribute? country { get; set; }
+        public UserSignUpInfo_Attribute? displayName { get; set; }
+
+        [JsonPropertyName("extension_0cae61cc83e94edd978ec2fde3c5f2f3_SpecialDiet")]
+        public UserSignUpInfo_Attribute? specialDiet { get; set; }
+        [JsonPropertyName("extension_0cae61cc83e94edd978ec2fde3c5f2f3_PromoCode")]
+        public UserSignUpInfo_Attribute? promoCode { get; set; }
     }
 
-    public class UserSignUpInfo_City
-    {
-        public string? value { get; set; }
-
-        [JsonPropertyName("@odata.type")]
-        public string odatatype { get; set; }
-        public string attributeType { get; set; }
-    }
-
-    public class UserSignUpInfo_Country
-    {
-        public string? value { get; set; }
-
-        [JsonPropertyName("@odata.type")]
-        public string odatatype { get; set; }
-        public string attributeType { get; set; }
-    }
-
-    public class UserSignUpInfo_DisplayName
-    {
-        public string? value { get; set; }
-
-        [JsonPropertyName("@odata.type")]
-        public string odatatype { get; set; }
-        public string attributeType { get; set; }
-    }
-
-    public class UserSignUpInfo_Email
+    public class UserSignUpInfo_Attribute
     {
         public string? value { get; set; }
 

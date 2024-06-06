@@ -48,7 +48,7 @@ POST https://auth-api.woodgrovedemo.com/OnAttributeCollectionSubmit
 
 To ensure the communications between Microsoft Entra custom extension and your REST API are secured appropriately, Microsoft Entra External ID uses OAuth 2.0 client credentials grant flow to issue an access token for the resource application registered with your custom authentication extension. 
 
-When the custom extension calls your REST API, it sends an HTTP Authorization header with a bearer token issued by Azure AD. You REST API validate the access token and its claims values. 
+When the custom extension calls your REST API, it sends an HTTP Authorization header with a bearer token issued by Microsoft Entra ID. You REST API validate the access token and its claims values. 
 
 ### [Option 1] Validate the access token in your code
 

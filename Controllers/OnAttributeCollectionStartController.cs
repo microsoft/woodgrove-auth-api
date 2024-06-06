@@ -34,7 +34,7 @@ public class OnAttributeCollectionStartController : ControllerBase
         // Track the page view 
         AppInsightsHelper.TrackApi("OnAttributeCollectionStart", this._telemetry, requestPayload.data);
 
-        // Message object to return to Azure AD
+        // Message object to return to Microsoft Entra ID
         AttributeCollectionStartResponse r = new AttributeCollectionStartResponse();
         r.data.actions[0].odatatype = AttributeCollectionStartResponse_ActionTypes.SetPrefillValues;
         r.data.actions[0].inputs = new AttributeCollectionStartResponse_Inputs();

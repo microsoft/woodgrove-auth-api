@@ -35,10 +35,10 @@ public class OnTokenIssuanceStartController : ControllerBase
         //     return null;
         //}
 
-        // Read the correlation ID from the Azure AD  request    
+        // Read the correlation ID from the Microsoft Entra ID  request    
         string correlationId = requestPayload.data.authenticationContext.correlationId; ;
 
-        // Claims to return to Azure AD
+        // Claims to return to Microsoft Entra ID
         TokenIssuanceStartResponse r = new TokenIssuanceStartResponse();
         r.data.actions[0].claims.CorrelationId = correlationId;
         r.data.actions[0].claims.ApiVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();

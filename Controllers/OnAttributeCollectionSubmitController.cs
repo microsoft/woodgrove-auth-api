@@ -40,7 +40,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
         CountriesList.Add("es", " Madrid, Barcelona, Seville");
         CountriesList.Add("us", " New York, Chicago, Boston, Seattle");
 
-        // Message object to return to Azure AD
+        // Message object to return to Microsoft Entra ID
         AttributeCollectionSubmitResponse r = new AttributeCollectionSubmitResponse();
 
         // Check the input attributes and return a generic error message
