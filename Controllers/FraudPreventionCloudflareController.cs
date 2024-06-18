@@ -70,7 +70,7 @@ public class FraudPreventionCloudflareController : ControllerBase
         if (!cloudflareResponse.success)
         {
             r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowValidationError;
-            r.data.actions[0].message = "Please fix the following issues to proceed.";
+            r.data.actions[0].message = "Account cannot be created due to a security issue.";
             r.data.actions[0].attributeErrors = new AttributeCollectionSubmitResponse_AttributeError();
             r.data.actions[0].attributeErrors.specialDiet = $"Cloudflare: {responseString}";
             return r;
