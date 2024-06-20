@@ -75,11 +75,14 @@ public class OnAttributeCollectionSubmitController : ControllerBase
             string.IsNullOrEmpty(requestPayload.data.userSignUpInfo.attributes.displayName.value) == false)
             {
                 string displayName = requestPayload.data.userSignUpInfo.attributes.displayName.value!.ToLower();
-                r.data.actions[0].attributes.displayName =
+                r.data.actions[0].attributes.DisplayName =
                     string.Concat(displayName[0].ToString().ToUpper(), displayName.AsSpan(1));
             }
 
-            r.data.actions[0].attributes.city = "Madrid";
+            r.data.actions[0].attributes.City = "Madrid";
+
+            // Update a property that is not on the sign-up page
+            r.data.actions[0].attributes.PreferredLanguage = "en-us";
 
             return r;
         }

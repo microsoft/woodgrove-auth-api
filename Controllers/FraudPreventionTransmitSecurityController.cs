@@ -76,7 +76,7 @@ public class FraudPreventionTransmitSecurityController : ControllerBase
             r.data.actions[0].attributes = new AttributeCollectionSubmitResponse_Attribute();
 
             // Remove the security token
-            r.data.actions[0].attributes.specialDiet = "";
+            r.data.actions[0].attributes.SpecialDiet = "";
             return r;
         }
         else

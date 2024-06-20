@@ -42,14 +42,20 @@ namespace woodgroveapi.Models
     public class AttributeCollectionSubmitResponse_Attribute
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? displayName { get; set; }
+        [JsonPropertyName("displayName")]
+        public string? DisplayName { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? city { get; set; }
+        [JsonPropertyName("city")]
+        public string? City { get; set; }
+        
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("preferredLanguage")]
+        public string? PreferredLanguage { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("extension_0cae61cc83e94edd978ec2fde3c5f2f3_SpecialDiet")]
-        public string? specialDiet { get; set; }
+        public string? SpecialDiet { get; set; }
     }
     public class AttributeCollectionSubmitResponse_AttributeError
     {
