@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace woodgroveapi.Models
@@ -11,9 +12,14 @@ namespace woodgroveapi.Models
         {
             data = new AttributeCollectionRequest_Data();
         }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
+        }
     }
 
-    public class AttributeCollectionRequest_Data: AllRequestData
+    public class AttributeCollectionRequest_Data : AllRequestData
     {
         public UserSignUpInfo userSignUpInfo { get; set; }
 

@@ -38,7 +38,10 @@ public class FraudPreventionTransmitSecurityController : ControllerBase
         // }
 
         // Track the page view 
-        AppInsightsHelper.TrackApi("FraudPreventionTransmitSecurity", this._telemetry, requestPayload.data);
+        IDictionary<string, string> moreProperties = new Dictionary<string, string>();
+        moreProperties.Add("Payload", requestPayload.ToString());
+        
+        AppInsightsHelper.TrackApi("FraudPreventionTransmitSecurity", this._telemetry, requestPayload.data, moreProperties);
 
         // Message object to return to Microsoft Entra ID
         AttributeCollectionSubmitResponse r = new AttributeCollectionSubmitResponse();
