@@ -28,12 +28,12 @@ public class FraudPreventionCloudflareController : ControllerBase
     public async Task<AttributeCollectionSubmitResponse> PostAsync([FromBody] AttributeCollectionRequest requestPayload)
     {
         //For Azure App Service with Easy Auth, validate the azp claim value
-        // if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
-        // {
-        //     AppInsightsHelper.TrackError("OnOtpSend", new Exception("Unauthorized"), this._telemetry, requestPayload.data);
-        //     Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-        //     return null;
-        // }
+        if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
+        {
+            AppInsightsHelper.TrackError("FraudPreventionCloudflare", new Exception("Unauthorized"), this._telemetry, requestPayload.data);
+            Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            return null;
+        }
 
         // Track the page view 
         AppInsightsHelper.TrackApi("FraudPreventionCloudflare", this._telemetry, requestPayload.data);

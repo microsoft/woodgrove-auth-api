@@ -30,17 +30,17 @@ public class FraudPreventionTransmitSecurityController : ControllerBase
     {
 
         //For Azure App Service with Easy Auth, validate the azp claim value
-        // if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
-        // {
-        //     AppInsightsHelper.TrackError("OnOtpSend", new Exception("Unauthorized"), this._telemetry, requestPayload.data);
-        //     Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-        //     return null;
-        // }
+        if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
+        {
+            AppInsightsHelper.TrackError("FraudPreventionTransmitSecurity", new Exception("Unauthorized"), this._telemetry, requestPayload.data);
+            Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            return null;
+        }
 
         // Track the page view 
         IDictionary<string, string> moreProperties = new Dictionary<string, string>();
         moreProperties.Add("Payload", requestPayload.ToString());
-        
+
         AppInsightsHelper.TrackApi("FraudPreventionTransmitSecurity", this._telemetry, requestPayload.data, moreProperties);
 
         // Message object to return to Microsoft Entra ID
