@@ -46,11 +46,11 @@ public class FraudPreventionTransmitSecurityController : ControllerBase
         // Check the input attributes and return a generic error message
         if (requestPayload.data.userSignUpInfo == null ||
             requestPayload.data.userSignUpInfo.attributes == null ||
-            requestPayload.data.userSignUpInfo.attributes.specialDiet == null ||
-            requestPayload.data.userSignUpInfo.attributes.specialDiet.value == null)
+            requestPayload.data.userSignUpInfo.attributes.displayName == null ||
+            requestPayload.data.userSignUpInfo.attributes.displayName.value == null)
         {
             r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowBlockPage;
-            r.data.actions[0].message = "Can't find the Cloudflare code (specialDiet attribute is missing).";
+            r.data.actions[0].message = "Can't find the Cloudflare code (displayName attribute is missing).";
             return r;
         }
 
@@ -60,7 +60,7 @@ public class FraudPreventionTransmitSecurityController : ControllerBase
         string responseString = string.Empty;
         using var client = new HttpClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token);
-        using var req = new HttpRequestMessage(HttpMethod.Get, $"https://api.transmitsecurity.io/risk/v1/recommendation?action_token={requestPayload.data.userSignUpInfo.attributes.specialDiet.value!}");
+        using var req = new HttpRequestMessage(HttpMethod.Get, $"https://api.transmitsecurity.io/risk/v1/recommendation?action_token={requestPayload.data.userSignUpInfo.attributes.displayName.value!}");
         using var res = await client.SendAsync(req);
 
         responseString = await res.Content.ReadAsStringAsync();
@@ -76,7 +76,7 @@ public class FraudPreventionTransmitSecurityController : ControllerBase
             r.data.actions[0].attributes = new AttributeCollectionSubmitResponse_Attribute();
 
             // Remove the security token
-            r.data.actions[0].attributes.SpecialDiet = "";
+            r.data.actions[0].attributes.DisplayName = "ST test";
             return r;
         }
         else
@@ -87,15 +87,15 @@ public class FraudPreventionTransmitSecurityController : ControllerBase
 
             if (transmitSecurityResponse.recommendation != null && transmitSecurityResponse.recommendation.type != null)
             {
-                r.data.actions[0].attributeErrors.specialDiet = $"Recommendation: {transmitSecurityResponse.recommendation.type}";
+                r.data.actions[0].attributeErrors.DisplayName = $"Recommendation: {transmitSecurityResponse.recommendation.type}";
             }
             else if (transmitSecurityResponse.message != null)
             {
-                r.data.actions[0].attributeErrors.specialDiet = transmitSecurityResponse.message;
+                r.data.actions[0].attributeErrors.DisplayName = transmitSecurityResponse.message;
             }
             else
             {
-                r.data.actions[0].attributeErrors.specialDiet = "Recommendation is null or empty";
+                r.data.actions[0].attributeErrors.DisplayName = "Recommendation is null or empty";
             }
 
             return r;

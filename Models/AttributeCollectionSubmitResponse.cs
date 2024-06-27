@@ -48,7 +48,7 @@ namespace woodgroveapi.Models
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("city")]
         public string? City { get; set; }
-        
+
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("preferredLanguage")]
         public string? PreferredLanguage { get; set; }
@@ -61,6 +61,10 @@ namespace woodgroveapi.Models
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? city { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("displayName")]
+        public string? DisplayName { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? country { get; set; }
