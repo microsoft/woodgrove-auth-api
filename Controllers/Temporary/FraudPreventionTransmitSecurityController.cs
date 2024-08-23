@@ -72,7 +72,8 @@ public class FraudPreventionTransmitSecurityController : ControllerBase
 
         // Check the recommendation type
         if (transmitSecurityResponse.recommendation != null && transmitSecurityResponse.recommendation.type != null &&
-            (transmitSecurityResponse.recommendation.type == "ALLOW" || transmitSecurityResponse.recommendation.type == "TRUST"))
+            (transmitSecurityResponse.recommendation.type == "ALLOW" || transmitSecurityResponse.recommendation.type == "TRUST" ||
+            (transmitsecurity.recommendation.type == "CHALLENGE" && transmitsecurity.recommendation.result != null && transmitsecurity.recommendation.result == "success")))
         {
             // No issues have been identified, proceed to create the account
             r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ModifyAttributeValues;
@@ -90,7 +91,8 @@ public class FraudPreventionTransmitSecurityController : ControllerBase
 
             if (transmitSecurityResponse.recommendation != null && transmitSecurityResponse.recommendation.type != null)
             {
-                r.data.actions[0].attributeErrors.DisplayName = $"Recommendation: {transmitSecurityResponse.recommendation.type}";
+                string result = transmitsecurity.recommendation.result != null ? transmitsecurity.recommendation.result : "NULL";
+                r.data.actions[0].attributeErrors.DisplayName = $"Recommendation: {transmitSecurityResponse.recommendation.type}, Result: {result}";
             }
             else if (transmitSecurityResponse.message != null)
             {
@@ -154,4 +156,5 @@ public class TransmitSecurityResponse
 public class Recommendation
 {
     public string type { get; set; }
+    public string result { get; set; }
 }
