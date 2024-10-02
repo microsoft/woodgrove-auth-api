@@ -26,12 +26,12 @@ public class SignUpStartsTestController : ControllerBase
     public AttributeCollectionStartResponse PostAsync([FromBody] AttributeCollectionRequest requestPayload)
     {
         //For Azure App Service with Easy Auth, validate the azp claim value
-        if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
-        {
-            AppInsightsHelper.TrackError("SignUpStartsTest", new Exception("Unauthorized"), this._telemetry, requestPayload.data);
-            Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-            return null;
-        }
+        // if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
+        // {
+        //     AppInsightsHelper.TrackError("SignUpStartsTest", new Exception("Unauthorized"), this._telemetry, requestPayload.data);
+        //     Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+        //     return null;
+        // }
 
         var SimulateDelayInMiliSeconds = 0;
         int.TryParse(_configuration.GetSection("Demos:SimulateDelayMilliseconds").Value, out SimulateDelayInMiliSeconds);
