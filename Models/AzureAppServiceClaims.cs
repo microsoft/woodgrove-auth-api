@@ -18,10 +18,10 @@ namespace woodgroveapi.Models
             // For more information, https://learn.microsoft.com/azure/app-service/configure-authentication-user-identities
             if (req.Headers.TryGetValue("x-ms-client-principal", out var xMsClientPrincipal))
             {
-                var json = Encoding.UTF8.GetString(Convert.FromBase64String(xMsClientPrincipal[0]));
-                AzureAppServiceClaimsHeader header = JsonSerializer.Deserialize<AzureAppServiceClaimsHeader>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                var json = Encoding.UTF8.GetString(Convert.FromBase64String(xMsClientPrincipal[0]!));
+                AzureAppServiceClaimsHeader header = JsonSerializer.Deserialize<AzureAppServiceClaimsHeader>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
 
-                AzureAppServiceClaim azp = header.claims.Find(x => x.typ == "azp");
+                AzureAppServiceClaim azp = header.claims.Find(x => x.typ == "azp")!;
 
                 // Validate that the 'azp' claim contains the 99045fe1-7639-4a75-9d4a-577b6ca3810f value. 
                 // This value ensures that the Microsoft Entra is the one who calls the API. 
