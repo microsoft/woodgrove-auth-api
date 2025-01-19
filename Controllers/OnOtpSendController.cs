@@ -1,6 +1,7 @@
 using System.Net;
 using Azure.Communication.Email;
 using Microsoft.ApplicationInsights;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using woodgroveapi.Helpers;
@@ -9,7 +10,7 @@ using woodgroveapi.Models;
 namespace woodgroveapi.Controllers;
 
 
-//[Authorize]
+[Authorize(AuthenticationSchemes = "EntraExternalIdCustomAuthToken")]
 [ApiController]
 [Route("[controller]")]
 public class OnOtpSendController : ControllerBase
@@ -38,11 +39,16 @@ public class OnOtpSendController : ControllerBase
             AppInsightsHelper.TrackApi("OnOtpSend", this._telemetry, requestPayload.data, moreProperties);
 
             //For Azure App Service with Easy Auth, validate the azp claim value
-            if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
+            // if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
+            // {
+            //     AppInsightsHelper.TrackError("OnOtpSend", new Exception("Unauthorized"), this._telemetry, requestPayload.data);
+            //     Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            //     return null;
+            // }
+
+            if (_configuration.GetSection("AppSettings:EmailConnectionString").Value == "")
             {
-                AppInsightsHelper.TrackError("OnOtpSend", new Exception("Unauthorized"), this._telemetry, requestPayload.data);
-                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                return null;
+                return new OnOtpSendResponse();
             }
 
             var emailClient = new EmailClient(_configuration.GetSection("AppSettings:EmailConnectionString").Value);

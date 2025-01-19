@@ -56,6 +56,10 @@ namespace woodgroveapi.Models
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string ApiVersion { get; set; }
 
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("act_as")]
+        public string ActAs { get; set; }
+
         public List<string> CustomRoles { get; set; }
         public TokenIssuanceStartResponse_Claims()
         {

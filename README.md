@@ -46,13 +46,7 @@ When the custom extension calls your REST API, it sends an HTTP Authorization he
 
 ### [Option 1] Validate the access token in your code
 
-This example uses the [Microsoft.Identity.Web](https://www.nuget.org/packages/Microsoft.Identity.Web) library to validate the access token.
-
-In the [appsettings.json](./appsettings.json) file, update the following keys under the `AzureAd` element:
-
-- **ClientId** the application ID that is associated with your custom extension. You can find this application under the API authentication in your custom extension.
-- **Audience** same as above
-- **TenantId** your tenant ID
+This example uses the [Microsoft.AspNetCore.Authentication.JwtBearer](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.JwtBearer) library to validate the access token.
 
 This demo REST API can be used without authentication (see option 2 below). If you run your own REST API, uncomment the `[Authorize]` attribute in the controllers. The following example shows how a controller should look like:
 

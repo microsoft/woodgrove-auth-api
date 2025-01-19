@@ -1,8 +1,7 @@
-using Microsoft.Identity.Web;
 using Microsoft.Extensions.Logging.AzureAppServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,15 +15,64 @@ builder.Services.Configure<AzureFileLoggerOptions>(options =>
 });
 builder.Logging.AddFilter((provider, category, logLevel) =>
 {
-    return provider.ToLower().Contains("woodgroveapi");
+    return provider!.ToLower().Contains("woodgroveapi");
 });
 
-// Disable the default claims mapping.
-JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+ConfigurationSection entraExternalIdCustomAuthTokenSettings = (ConfigurationSection)builder.Configuration.GetSection("EntraExternalIdCustomAuthToken");
 
-// Add the authentication services.
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+// Reference: 
+// There is an issue validating the first party token with 
+// https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.authentication.jwtbearer
+// https://learn.microsoft.com/en-us/aspnet/core/security/authentication/configure-jwt-bearer-authentication
+builder.Services.AddAuthentication()
+    .AddJwtBearer("EntraExternalIdCustomAuthToken", jwtOptions =>
+    {
+        jwtOptions.MetadataAddress = entraExternalIdCustomAuthTokenSettings["MetadataAddress"]!;
+        jwtOptions.Audience = entraExternalIdCustomAuthTokenSettings["Audience"];
+        jwtOptions.IncludeErrorDetails = true;
+        jwtOptions.MapInboundClaims = false;
+        jwtOptions.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true
+        };
+        jwtOptions.Events = new JwtBearerEvents
+        {
+            OnTokenValidated = context =>
+            {
+                // Validate the authorized party (the app who issued the token)
+                string? clientappId = context?.Principal?.Claims.FirstOrDefault(x => x.Type == "azp" && x.Value == "99045fe1-7639-4a75-9d4a-577b6ca3810f")?.Value;
+                if (clientappId == null)
+                {
+                    context!.Fail("Invalid azp claim value");
+                }
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+
+ConfigurationSection entraExternalIdUserToken = (ConfigurationSection)builder.Configuration.GetSection("EntraExternalIdUserToken");
+builder.Services.AddAuthentication()
+    .AddJwtBearer("EntraExternalIdUserToken", jwtOptions =>
+    {
+        jwtOptions.MetadataAddress = entraExternalIdUserToken["MetadataAddress"]!;
+        jwtOptions.Audience = entraExternalIdUserToken["Audience"];
+        jwtOptions.IncludeErrorDetails = true;
+        jwtOptions.MapInboundClaims = false;
+        jwtOptions.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true
+        };
+    });
+
+// Add in memory cache                                                  
+builder.Services.AddMemoryCache();
 
 builder.Services.AddControllers();
 
@@ -38,24 +86,13 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "Woodgrove demo API",
-        Description = "This dotnet Web API endpoint demonstrate how to use Microsoft Entra External ID's custom authentication extension for various events. Checkout the [source code](https://github.com/microsoft/woodgrove-api) and [request samples](./help.html) <br> <br> Assembly version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(),
+        Title = "Woodgrove custom authentication extension API",
+        Description = "This dotnet Web API endpoint demonstrate how to use Microsoft Entra External ID's custom authentication extension for various events. Checkout the [source code](https://github.com/microsoft/woodgrove-api) and [request samples](./help.html) <br> <br> Assembly version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version!.ToString(),
     });
 });
 
-// Verifies that the caller of the Web API is always the Microsoft Entra External ID.
-// string policyName = "VerifyCallerIsCiamSts";
-// builder.Services.AddAuthorization(options => {
-//     options.AddPolicy(policyName, builder =>
-//     {
-//         // For more information, https://learn.microsoft.com/azure/active-directory/develop/custom-extension-overview#protect-your-rest-api
-//         builder.RequireClaim("azp", "99045fe1-7639-4a75-9d4a-577b6ca3810f");
-//     });
-//     options.DefaultPolicy = options.GetPolicy(policyName)!;
-// });
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
