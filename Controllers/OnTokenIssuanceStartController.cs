@@ -64,6 +64,9 @@ public class OnTokenIssuanceStartController : ControllerBase
         if (_memoryCache.TryGetValue(userId, out ActAsEntity actAsEntity))
         {
             r.data.actions[0].claims.ActAs = actAsEntity!.ActAs;
+
+            // Remove the user's data from the cache
+            _memoryCache.Remove(userId);
         }
         return r;
     }
