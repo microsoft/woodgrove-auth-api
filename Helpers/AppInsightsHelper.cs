@@ -24,6 +24,19 @@ public class AppInsightsHelper
         pageView.Properties.Add("AppDisplayName", requestData.authenticationContext.clientServicePrincipal.appDisplayName);
         pageView.Properties.Add("AppId", requestData.authenticationContext.clientServicePrincipal.appId);
 
+        // OnAttributeCollectionStart's specific properties
+        if (requestData is AttributeCollectionRequest_Data)
+        {
+            AttributeCollectionRequest_Data attributeCollectionRequestData = (AttributeCollectionRequest_Data)requestData;
+
+            if (attributeCollectionRequestData.userSignUpInfo.identities != null && 
+            attributeCollectionRequestData.userSignUpInfo.identities.Count > 0)
+            {
+                pageView.Properties.Add("UserSignUpInfo.Issuer", attributeCollectionRequestData.userSignUpInfo.identities[0].issuer);
+                pageView.Properties.Add("UserSignUpInfo.signInType", attributeCollectionRequestData.userSignUpInfo.identities[0].signInType);
+            }
+        }
+
         if (moreProperties != null)
             foreach (var item in moreProperties)
             {
