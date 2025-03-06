@@ -34,6 +34,13 @@ public class AppInsightsHelper
             {
                 pageView.Properties.Add("UserSignUpInfoIssuer", attributeCollectionRequestData.userSignUpInfo.identities[0].issuer);
                 pageView.Properties.Add("UserSignUpInfoSignInType", attributeCollectionRequestData.userSignUpInfo.identities[0].signInType);
+            
+                // For local account get the email suffix
+                if (attributeCollectionRequestData.userSignUpInfo.identities[0].signInType == "emailAddress")
+                {
+                    string email = attributeCollectionRequestData.userSignUpInfo.identities[0].issuerAssignedId;
+                    pageView.Properties.Add("UserSignUpInfoEmailSuffix", email.Substring(email.IndexOf('@')));
+                }
             }
         }
 
