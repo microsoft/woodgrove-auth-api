@@ -45,7 +45,7 @@ public class OnAttributeCollectionStartController : ControllerBase
 
         // Return a promo code
         Random random = new Random();
-        r.data.actions[0].inputs.promoCode = $"Promo code #{random.Next(1236, 9873)}";
+        r.data.actions[0].inputs.promoCode = $"#{random.Next(1236, 9873)}";
 
         return r;
     }

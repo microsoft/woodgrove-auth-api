@@ -32,8 +32,8 @@ public class AppInsightsHelper
             if (attributeCollectionRequestData.userSignUpInfo.identities != null && 
             attributeCollectionRequestData.userSignUpInfo.identities.Count > 0)
             {
-                pageView.Properties.Add("UserSignUpInfo.Issuer", attributeCollectionRequestData.userSignUpInfo.identities[0].issuer);
-                pageView.Properties.Add("UserSignUpInfo.signInType", attributeCollectionRequestData.userSignUpInfo.identities[0].signInType);
+                pageView.Properties.Add("UserSignUpInfoIssuer", attributeCollectionRequestData.userSignUpInfo.identities[0].issuer);
+                pageView.Properties.Add("UserSignUpInfoSignInType", attributeCollectionRequestData.userSignUpInfo.identities[0].signInType);
             }
         }
 
