@@ -22,8 +22,14 @@ public class OnAttributeCollectionStartController : ControllerBase
     }
 
     [HttpPost(Name = "OnAttributeCollectionStart")]
-    public AttributeCollectionStartResponse PostAsync([FromBody] AttributeCollectionRequest requestPayload)
+    public IActionResult PostAsync([FromBody] AttributeCollectionRequest requestPayload)
     {
+        if (requestPayload == null || requestPayload.data == null)
+        {
+            _logger.LogWarning("Invalid request payload received in OnAttributeCollectionStart.");
+            return BadRequest(new { error = "Request payload or data is null." });
+        }
+
         // For Azure App Service with Easy Auth, validate the azp claim value
         // if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
         // {
@@ -47,6 +53,6 @@ public class OnAttributeCollectionStartController : ControllerBase
         Random random = new Random();
         r.data.actions[0].inputs.promoCode = $"#{random.Next(1236, 9873)}";
 
-        return r;
+        return Ok(r);
     }
 }

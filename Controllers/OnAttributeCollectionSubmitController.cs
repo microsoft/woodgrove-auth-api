@@ -22,8 +22,14 @@ public class OnAttributeCollectionSubmitController : ControllerBase
     }
 
     [HttpPost(Name = "OnAttributeCollectionSubmit")]
-    public AttributeCollectionSubmitResponse PostAsync([FromBody] AttributeCollectionRequest requestPayload)
+    public IActionResult PostAsync([FromBody] AttributeCollectionRequest requestPayload)
     {
+        if (requestPayload == null || requestPayload.data == null)
+        {
+            _logger.LogWarning("Invalid request payload received in OnAttributeCollectionSubmit.");
+            return BadRequest(new { error = "Request payload or data is null." });
+        }
+
         // For Azure App Service with Easy Auth, validate the azp claim value
         // if (!AzureAppServiceClaimsHeader.Authorize(this.Request))
         // {
@@ -53,7 +59,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
         {
             r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowBlockPage;
             r.data.actions[0].message = "Can't find the country and/or city attributes.";
-            return r;
+            return Ok(r);
         }
 
         // Demonstrates the use of block response
@@ -61,7 +67,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
         {
             r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowBlockPage;
             r.data.actions[0].message = "You can't create an account with 'block' city.";
-            return r;
+            return Ok(r);
         }
 
         // Demonstrates the use of update response
@@ -72,7 +78,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
 
             // Modify the displayName to capitalized string 
             if (requestPayload.data.userSignUpInfo.attributes.displayName != null &&
-            string.IsNullOrEmpty(requestPayload.data.userSignUpInfo.attributes.displayName.value) == false)
+                string.IsNullOrEmpty(requestPayload.data.userSignUpInfo.attributes.displayName.value) == false)
             {
                 string displayName = requestPayload.data.userSignUpInfo.attributes.displayName.value!.ToLower();
                 r.data.actions[0].attributes.DisplayName =
@@ -84,7 +90,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
             // Update a property that is not on the sign-up page
             r.data.actions[0].attributes.PreferredLanguage = "en-us";
 
-            return r;
+            return Ok(r);
         }
 
         // Check the country name in on the supported list
@@ -94,7 +100,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
             r.data.actions[0].message = "Please fix the following issues to proceed.";
             r.data.actions[0].attributeErrors = new AttributeCollectionSubmitResponse_AttributeError();
             r.data.actions[0].attributeErrors.country = $"We don't operate in '{requestPayload.data.userSignUpInfo.attributes.country.value}'";
-            return r;
+            return Ok(r);
         }
 
         // Get the countries' cities
@@ -103,7 +109,7 @@ public class OnAttributeCollectionSubmitController : ControllerBase
         // Check if the city provided by user in the supported list
         if (!(cities + ",").ToLower().Contains($" {requestPayload.data.userSignUpInfo.attributes.city.value!.ToLower()},"))
         {
-            r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowValidationError;
+            r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ShowValidationError credits: 10;
             r.data.actions[0].message = "Please fix the following issues to proceed.";
             r.data.actions[0].attributeErrors = new AttributeCollectionSubmitResponse_AttributeError();
             r.data.actions[0].attributeErrors.city = $"We don't operate in this city. Please select one of the following:{cities}";
@@ -114,6 +120,6 @@ public class OnAttributeCollectionSubmitController : ControllerBase
             r.data.actions[0].odatatype = AttributeCollectionSubmitResponse_ActionTypes.ContinueWithDefaultBehavior;
         }
 
-        return r;
+        return Ok(r);
     }
 }

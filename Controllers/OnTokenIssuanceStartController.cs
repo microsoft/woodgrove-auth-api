@@ -8,7 +8,6 @@ using woodgroveapi.Models;
 
 namespace woodgroveapi.Controllers;
 
-
 //[Authorize]
 [ApiController]
 [Route("[controller]")]
@@ -26,8 +25,14 @@ public class OnTokenIssuanceStartController : ControllerBase
     }
 
     [HttpPost(Name = "OnTokenIssuanceStart")]
-    public TokenIssuanceStartResponse PostAsync([FromBody] TokenIssuanceStartRequest requestPayload)
+    public IActionResult PostAsync([FromBody] TokenIssuanceStartRequest requestPayload)
     {
+        if (requestPayload == null || requestPayload.data == null || requestPayload.data.authenticationContext == null)
+        {
+            _logger.LogWarning("Invalid request payload received in OnTokenIssuanceStart.");
+            return BadRequest(new { error = "Request payload, data, or authentication context is null." });
+        }
+
         // Track the page view 
         AppInsightsHelper.TrackApi("OnTokenIssuanceStart", this._telemetry, requestPayload.data);
 
@@ -39,7 +44,7 @@ public class OnTokenIssuanceStartController : ControllerBase
         //}
 
         // Read the correlation ID from the Microsoft Entra ID  request    
-        string correlationId = requestPayload.data.authenticationContext.correlationId; ;
+        string correlationId = requestPayload.data.authenticationContext.correlationId;
 
         // Claims to return to Microsoft Entra ID
         TokenIssuanceStartResponse r = new TokenIssuanceStartResponse();
@@ -57,7 +62,6 @@ public class OnTokenIssuanceStartController : ControllerBase
         r.data.actions[0].claims.CustomRoles.Add("Writer");
         r.data.actions[0].claims.CustomRoles.Add("Editor");
 
-
         // Try to get the cache object for the current user
         string userId = requestPayload.data.authenticationContext.user!.id!;
 
@@ -68,6 +72,6 @@ public class OnTokenIssuanceStartController : ControllerBase
             // Remove the user's data from the cache
             _memoryCache.Remove(userId);
         }
-        return r;
+        return Ok(r);
     }
 }
