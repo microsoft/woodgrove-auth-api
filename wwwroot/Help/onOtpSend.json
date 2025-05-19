@@ -1,0 +1,36 @@
+{
+    "type": "microsoft.graph.authenticationEvent.emailOtpSend",
+    "source": "/tenants/12345678-0000-0000-0000-000000000000/applications/44444444-0000-0000-0000-000000000000",
+    "data": {
+        "@odata.type": "microsoft.graph.onOtpSendCalloutData",
+        "otpContext": {
+            "identifier": "casey@contoso.com",
+            "oneTimeCode": "17479132"
+        },
+        "tenantId": "12345678-0000-0000-0000-000000000000",
+        "authenticationEventListenerId": "55555555-0000-0000-0000-000000000000",
+        "customAuthenticationExtensionId": "66666666-0000-0000-0000-000000000000",
+        "authenticationContext": {
+            "correlationId": "d486c3ad-efc6-4f38-9dbd-3f3023158d8d",
+            "client": {
+                "ip": "0.0.0.0",
+                "locale": "en-us",
+                "market": "en-us"
+            },
+            "protocol": "OAUTH2.0",
+            "requestType": "signUp",
+            "clientServicePrincipal": {
+                "id": "33333333-0000-0000-0000-000000000000",
+                "appId": "44444444-0000-0000-0000-000000000000",
+                "appDisplayName": "My Test application",
+                "displayName": "My Test application"
+            },
+            "resourceServicePrincipal": {
+                "id": "33333333-0000-0000-0000-000000000000",
+                "appId": "44444444-0000-0000-0000-000000000000",
+                "appDisplayName": "My Test application",
+                "displayName": "My Test application"
+            }
+        }
+    }
+}
