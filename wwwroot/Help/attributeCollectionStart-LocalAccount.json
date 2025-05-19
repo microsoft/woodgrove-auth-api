@@ -1,6 +1,6 @@
 {
     "type": "microsoft.graph.authenticationEvent.attributeCollectionStart",
-    "source": "/tenants/12345678-0000-0000-0000-000000000000/applications/00000003-0000-0000-c000-000000000000",
+    "source": "/tenants/12345678-0000-0000-0000-000000000000/applications/00000003-0000-0000-0000-000000000000",
     "data": {
         "@odata.type": "microsoft.graph.onAttributeCollectionStartCalloutData",
         "userSignUpInfo": {
@@ -20,8 +20,8 @@
             ]
         },
         "tenantId": "12345678-0000-0000-0000-000000000000",
-        "authenticationEventListenerId": "4d7faa03-ebef-4b50-8f9c-90c05cbb2ba8",
-        "customAuthenticationExtensionId": "ea528627-7ecf-4ab0-8d7d-e4a16b8d1d9e",
+        "authenticationEventListenerId": "55555555-1111-0000-0000-000000000000",
+        "customAuthenticationExtensionId": "66666666-1111-0000-0000-000000000000",
         "authenticationContext": {
             "correlationId": "6b264006-9d46-4409-bdb7-a501b6c22527",
             "client": {
@@ -31,14 +31,14 @@
             },
             "protocol": "OAUTH2.0",
             "clientServicePrincipal": {
-                "id": "758a6513-5cc9-4274-aa57-409618e73f71",
-                "appId": "77552a27-2fbf-4fb0-873e-af165ec071d5",
-                "appDisplayName": "My test web application",
-                "displayName": "My test web application"
+                "id": "33333333-0000-0000-0000-000000000000",
+                "appId": "44444444-0000-0000-0000-000000000000",
+                "appDisplayName": "My Test application",
+                "displayName": "My Test application"
             },
             "resourceServicePrincipal": {
                 "id": "e42d06a3-38f6-40ab-86a8-3019e1468863",
-                "appId": "00000003-0000-0000-c000-000000000000",
+                "appId": "00000003-0000-0000-0000-000000000000",
                 "appDisplayName": "Microsoft Graph",
                 "displayName": "Microsoft Graph"
             }

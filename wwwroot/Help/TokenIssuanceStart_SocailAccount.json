@@ -1,11 +1,11 @@
 {
     "type": "microsoft.graph.authenticationEvent.tokenIssuanceStart",
-    "source": "/tenants/12345678-0000-0000-0000-000000000000/applications/77552a27-2fbf-4fb0-873e-af165ec071d5",
+    "source": "/tenants/12345678-0000-0000-0000-000000000000/applications/44444444-0000-0000-0000-000000000000",
     "data": {
         "@odata.type": "microsoft.graph.onTokenIssuanceStartCalloutData",
         "tenantId": "12345678-0000-0000-0000-000000000000",
-        "authenticationEventListenerId": "723461c8-0d17-4d35-9ac4-48734c22919c",
-        "customAuthenticationExtensionId": "57f2995c-52d7-4c0c-a07d-b69359f500cc",
+        "authenticationEventListenerId": "55555555-3333-0000-0000-000000000000",
+        "customAuthenticationExtensionId": "66666666-3333-0000-0000-000000000000",
         "authenticationContext": {
             "correlationId": "035548e6-d6aa-46bc-8f1e-bd3f384b094a",
             "client": {
@@ -15,16 +15,16 @@
             },
             "protocol": "OAUTH2.0",
             "clientServicePrincipal": {
-                "id": "758a6513-5cc9-4274-aa57-409618e73f71",
-                "appId": "77552a27-2fbf-4fb0-873e-af165ec071d5",
-                "appDisplayName": "My test web application",
-                "displayName": "My test web application"
+                "id": "33333333-0000-0000-0000-000000000000",
+                "appId": "44444444-0000-0000-0000-000000000000",
+                "appDisplayName": "My Test application",
+                "displayName": "My Test application"
             },
             "resourceServicePrincipal": {
-                "id": "758a6513-5cc9-4274-aa57-409618e73f71",
-                "appId": "77552a27-2fbf-4fb0-873e-af165ec071d5",
-                "appDisplayName": "My test web application",
-                "displayName": "My test web application"
+                "id": "33333333-0000-0000-0000-000000000000",
+                "appId": "44444444-0000-0000-0000-000000000000",
+                "appDisplayName": "My Test application",
+                "displayName": "My Test application"
             },
             "user": {
                 "displayName": "Someone",
