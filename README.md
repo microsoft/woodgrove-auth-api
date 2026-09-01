@@ -8,7 +8,7 @@ The sample code provides an implementation of the following endpoints:
 
 ### Token issuance start
 
-The *TokenIssuanceStart* event is triggered when a token is about to be issued by Microsoft Entra External ID to your application. When the event is triggered your custom extension REST API is called to fetch attributes from external systems. In this demo, the [TokenIssuanceStartController](./Controllers/TokenIssuanceStartController.cs) returns the following claims:
+The *TokenIssuanceStart* event is triggered when a token is about to be issued by Microsoft Entra External ID to your application. When the event is triggered your custom extension REST API is called to fetch attributes from external systems. In this demo, the [OnTokenIssuanceStartController](./Controllers/OnTokenIssuanceStartController.cs) returns the following claims:
 
 - **CorrelationId** the correlation ID that was sent by the issuer to your REST API.
 - **ApiVersion** a fixed value with your REST API version. This attribute can help you debug your REST API and check if your latest version is in used.
